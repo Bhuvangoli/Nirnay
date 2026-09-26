@@ -177,7 +177,7 @@ export default function OverviewPage() {
             <div className="flex items-center justify-between border-b border-slate-800 pb-3">
               <div className="flex items-center gap-2 font-mono text-xs text-[#42C7FF] uppercase font-bold">
                 <FileText className="w-4 h-4" />
-                <span>LATEST STRATEGIC ADJUDICATION (TURN {currentTurn})</span>
+                <span>LATEST STRATEGIC ADJUDICATION (TURN {currentTurnResult?.scenario_id || currentTurn})</span>
               </div>
               <button
                 onClick={() => navigate('/reports')}

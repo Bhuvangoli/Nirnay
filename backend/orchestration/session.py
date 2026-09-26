@@ -144,7 +144,7 @@ class WargameSessionStore:
             scenario_id = session.last_state.scenario_transition.next_scenario.scenario_id
             parent_id = session.last_state.scenario_id
         else:
-            scenario_id = str(turn_number)
+            scenario_id = "1.0" if turn_number == 1 else str(turn_number)
             parent_id = None
 
         # Update guidance if command provided

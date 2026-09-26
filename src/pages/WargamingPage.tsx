@@ -416,7 +416,7 @@ export default function WargamingPage() {
               Autonomous Turn-Based Strategic Wargame
               {displayedTurn && (
                 <span className="text-sm font-mono px-3 py-0.5 rounded bg-[#42C7FF]/20 text-[#63E6FF] border border-[#42C7FF]/40">
-                  TURN {displayedTurn.turn_number} / SCENARIO {displayedTurn.scenario_id}
+                  SIMULATION TURN {displayedTurn.scenario_id} (Iteration {displayedTurn.turn_number})
                 </span>
               )}
             </h1>
@@ -525,7 +525,7 @@ export default function WargamingPage() {
                       : 'bg-white/5 hover:bg-white/10 text-white/70'
                   }`}
                 >
-                  Turn {t.turn_number} (Scn {t.scenario_id})
+                  Turn {t.scenario_id}
                 </button>
               ))}
             </div>
@@ -1209,15 +1209,20 @@ export default function WargamingPage() {
                     {/* Command Suggestions */}
                     <div className="flex flex-wrap gap-1.5 pt-1">
                       {[
-                        'Hold fire until adversary crosses median',
-                        'Shift 1st Mech Brigade to East Ford',
-                        'Preserve fuel floor above 35%',
+                        'Hold fire until adversary crosses median coordinate line',
+                        'Shift 1st Mechanized Brigade to reinforce East Ford chokepoint',
+                        'Preserve fuel floor above 35% across all units',
+                        'Initiate electronic warfare jammer sweep across Sector Bravo',
+                        'Authorize tactical disengagement and withdraw to secondary redoubt',
+                        'Enforce immediate 12-hour tactical pause along river boundary',
+                        'Request high-altitude aerial reconnaissance over Northern Ingress',
+                        'Execute rapid counter-battery strike on hostile artillery',
                       ].map((sugg) => (
                         <button
                           key={sugg}
                           type="button"
                           onClick={() => setCommandText(sugg)}
-                          className="px-2 py-0.5 rounded text-[10px] font-mono bg-white/5 hover:bg-white/10 text-[#A6B6C6] hover:text-white border border-white/5 transition-all"
+                          className="px-2 py-0.5 rounded text-[10px] font-mono bg-white/5 hover:bg-[#168CFF]/20 text-[#A6B6C6] hover:text-[#63E6FF] border border-white/5 hover:border-[#168CFF]/40 transition-all cursor-pointer"
                         >
                           + {sugg}
                         </button>

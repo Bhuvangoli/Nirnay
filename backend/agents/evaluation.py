@@ -21,6 +21,21 @@ from backend.schemas.contracts import (
 from backend.llm.wrapper import invoke_structured, is_fallback_allowed
 
 
+def compute_next_scenario_id(current_id: str) -> str:
+    """Deterministically computes sub-turn scenario ID (e.g. 1.0 -> 1.1 -> 1.2 -> 1.3)."""
+    if not current_id or current_id == "NONE":
+        return "1.1"
+    if "." in current_id:
+        parts = current_id.rsplit(".", 1)
+        try:
+            val = int(parts[1])
+            return f"{parts[0]}.{val + 1}"
+        except ValueError:
+            return f"{current_id}.1"
+    else:
+        return f"{current_id}.1"
+
+
 class EvaluationAgent:
     def __init__(self):
         self.role = "evaluation"
@@ -169,9 +184,7 @@ class EvaluationAgent:
             eval_output.simulation_control.termination_reason = "Maximum turns reached" if is_max_turns else None
 
         # Build ScenarioTransition for turn lineage progression
-        next_id = eval_output.next_scenario.scenario_id if (eval_output.next_scenario and not eval_output.simulation_control.concluded) else "NONE"
-        if next_id != "NONE" and "." not in next_id and contract.scenario_id != "NONE":
-            next_id = f"{contract.scenario_id}.1" if "." not in contract.scenario_id else f"{contract.scenario_id[:-1]}{int(contract.scenario_id[-1])+1}"
+        next_id = compute_next_scenario_id(contract.scenario_id) if not eval_output.simulation_control.concluded else "NONE"
 
         transition = ScenarioTransition(
             transition_id=f"TRANS-{contract.scenario_id}",
